@@ -20,5 +20,38 @@ describe('Quiz Component', () => {
         cy.get('.question').should('exist');
         cy.get('.answer-option').should('have.length', 4);
     });
+
+    it('selects an answer', () => {
+        cy.mount(<Quiz/>);
+        cy.get('button').contains('Start Quiz').click(); 
+        cy.get('.answer-option').first().click(); 
+        cy.get('.selected').should('exist');
+    });
+
+    it('Gives new question on clicking next', () => {
+        cy.mount(<Quiz/>);
+        cy.get('button').contains('Start Quiz').click();
+        cy.get('.answer-option').first().click();
+        cy.get('button').contains('Next Question').click(); 
+        cy.get('.question').should('exist');
+        cy.get('.answer-option').should('have.length', 4);
+    });
+
+    it('shows the score at the end of the quiz', () => {
+        cy.mount(<Quiz/>);
+        cy.get('button').contains('Start Quiz').click(); 
+        cy.get('.answer-option').first().click(); 
+        cy.get('button').contains('Next Question').click(); 
+        cy.get('.score').should('exist');
+    });
+
+    it('resets the quiz', () => {
+        cy.mount(<Quiz/>);
+        cy.get('button').contains('Start Quiz').click(); 
+        cy.get('.answer-option').first().click(); 
+        cy.get('button').contains('Next Question').click(); 
+        cy.get('button').contains('Reset Quiz').click(); 
+        cy.get('.question').should('not.exist');
+    });
 })
 
